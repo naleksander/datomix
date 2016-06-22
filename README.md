@@ -1,36 +1,27 @@
 # datomix
 
-FIXME: description
+Shape query results in way you satisfy. Instead plain list of values:
 
-## Installation
+        (datomic.api/q '[:find  ?k ?pathElem
+                         :in [[?k ?v]]
+                         :where [ (.endsWith ?k "path")]
+                         [(.split ?v ";") [?pathElem ...]]
+                         [(.endsWith ?pathElem ".jar")]]
+                       (System/getProperties))
 
-Download from http://example.com/FIXME.
 
-## Usage
+You can request the result as map:
 
-FIXME: explanation
-
-    $ java -jar datomix-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+        (qx [:find   {:key ?k :val #{ ?pathElem ... }}
+             :in [[?k ?v]]
+             :where [ (.endsWith ?k "path")]
+             [(.split ?v ";") [?pathElem ...]]
+             [(.endsWith ?pathElem ".jar")]]
+            (System/getProperties))
 
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2016 Aleksander
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
